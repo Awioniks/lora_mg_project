@@ -16,6 +16,9 @@ class Data_Insert():
 
         # Data structures.
         self.db_d = {}
+        self.data_type = [
+            "rssi", "lsnr", "freq", "modul"
+        ]
         self.decoded_data = None
 
     def decode(self, data):
@@ -30,17 +33,26 @@ class Data_Insert():
         if match_obj:
             rssi_obj = re.search(r'\"rssi\":-\d+', self.decoded_data)
             lsnr_obj = re.search(r'\"lsnr\":\d+.\d+', self.decoded_data)
+            freq_obj = re.search(r'\"freq\":\d+.\d+', self.decoded_data)
+            modul_obj = re.search(r'\"modu\":\"[a-zA-Z]+\"', self.decoded_data)
 
-            if rssi_obj:
-                print(rssi_obj.group(), "RSSI")
-                self.db_d["RSSI"] = rssi_obj.group()
+            data_list = [rssi_obj, lsnr_obj, freq_obj, modul_obj]
 
-            if lsnr_obj:
-                print(lsnr_obj.group(), "LSNR")
-                self.db_d["LSNR"] = rssi_obj.group()
+            for data_, data_type in zip(data_list, self.data_type):
+                self.set_current_data(data_, data_type)
 
             return True
         return False
+
+    def set_current_data(self, data, data_type):
+        """
+        Set current data structrure
+        """
+
+        if data:
+            data_el = data.group()
+            data_el = data_el.replace("\"", "").split(":")
+            self.db_d[data_type] = data_el[-1]
 
     def send_data(self, data):
         """
@@ -53,11 +65,11 @@ class Data_Insert():
                 {
                     "measurement": "radio_data",
                     "tags": {
-                        "sensor": "nr_1"
+                        "sensor": "gateway_jozek"
                     },
                     "fields": {
-                        "rssi": self.db_d["RSSI"],
-                        "lsnr": self.db_d["LSNR"]
+                        key: val
+                            for key, val in self.db_d.items()
                     }
                 }
             ]

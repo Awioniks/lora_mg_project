@@ -2,7 +2,7 @@
 
 # Launch data downloader
 sudo docker-compose restart data_downloader
-
+sudo docker-compose up -d data_downloader
 
 # Launch lora packet forwarder
 sleep 15

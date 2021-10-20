@@ -69,10 +69,11 @@ class Data_Insert():
                     },
                     "fields": {
                         key: val
-                            for key, val in self.db_d.items()
+                        for key, val in self.db_d.items()
                     }
                 }
             ]
+            print(measurement)
             self.send_to_influx(measurement)
 
     def send_to_influx(self, measurement):
@@ -80,7 +81,11 @@ class Data_Insert():
         Send data to influx database.
         """
 
-        influx_client =  InfluxDBClient(
-                host=self.host, port=self.port, username="PATRYK",
-                password="PATRYK", database=self.db)
-        influx_client.write_points(measurement)
+        try:
+            influx_client = InfluxDBClient(
+                host=self.host, port=self.port, username=self.user,
+                password=self.password, database=self.db)
+            influx_client.write_points(measurement)
+        except Exception as ex:
+            print(ex)
+            return

@@ -4,7 +4,7 @@ from server import Server
 from data_insert import Data_Insert
 
 
-INFLUX_HOST = "172.23.0.2"
+INFLUX_HOST = "172.18.0.3"
 INFLUX_PORT = "8086"
 INFLUX_DB = "TTN_GATEWAY"
 MEASUREMENT = "radio_data"

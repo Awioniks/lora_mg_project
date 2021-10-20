@@ -9,15 +9,15 @@ services:
   influxdb:
     image: arm32v7/influxdb:latest
     volumes:
-      - /home/pi/Projects/lora_mgr_project/influx/influx_data:/var/lib/influxdb
-      - /home/pi/Projects/lora_mgr_project/influx/influxdb.conf:/etc/influxdb/influxdb.conf
+      - /home/pi/lora_mgr_project/influx/influx_data:/var/lib/influxdb
+      - /home/pi/lora_mgr_project/influx/influxdb.conf:/etc/influxdb/influxdb.conf
     networks:
       - ttn_docker_network
 
   data_downloader:  
     build: ./data_downloader
     volumes:
-      - /home/pi/Projects/lora_mgr_project/data_downloader:/data_downloader
+      - /home/pi/lora_mgr_project/data_downloader:/data_downloader
     networks:
       - ttn_docker_network
     ports:

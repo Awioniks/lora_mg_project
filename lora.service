@@ -1,0 +1,15 @@
+[Unit]
+Description=How-To Geek Service Example
+
+Wants=network.target docker.target
+After=syslog.target network-online.target docker.target 
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/launch.sh
+Restart=on-failure
+RestartSec=10
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

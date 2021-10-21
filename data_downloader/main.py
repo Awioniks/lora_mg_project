@@ -1,21 +1,19 @@
 #!/usr/bin/python3
 
+import yaml
+
 from server import Server
 from data_insert import Data_Insert
 
 
-INFLUX_HOST = "172.18.0.3"
-INFLUX_PORT = "8086"
-INFLUX_DB = "TTN_GATEWAY"
-MEASUREMENT = "radio_data"
-INFLUX_USER = "PATRYK"
-INFLUX_PASSWORD = "PATRYK"
-
-
 if __name__ == "__main__":
 
-    db = Data_Insert(db=INFLUX_DB, user=INFLUX_USER,
-                password=INFLUX_PASSWORD, host=INFLUX_HOST,
-                port=INFLUX_PORT, measurement=MEASUREMENT)
-    serv = Server("0.0.0.0", 65432, db)
+    with open("config.yaml", 'r') as file_handler:
+        data = yaml.full_load(file_handler)
+
+    db = Data_Insert(db=data["INFLUX_DB"], user=data["INFLUX_USER"],
+                password=data["INFLUX_PASSWORD"], host=data["INFLUX_HOST"],   
+                port=data["INFLUX_PORT"], measurement=data["MEASUREMENT"])
+    
+    serv = Server(data["HTTP_IP"], data["PORT"], db)
     serv.launch_server()

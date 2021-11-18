@@ -6,7 +6,7 @@ After=syslog.target network-online.target docker.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/launch.sh
+ExecStart=/usr/local/bin/lora_mgr_project/launch.sh
 Restart=on-failure
 RestartSec=10
 KillMode=process

@@ -11,8 +11,11 @@ services:
     volumes:
       - /home/pi/lora_mgr_project/influx/influx_data:/var/lib/influxdb
       - /home/pi/lora_mgr_project/influx/influxdb.conf:/etc/influxdb/influxdb.conf
+      - /home/pi/lora_mgr_project/influx/backups:/tmp/backups
     networks:
       - ttn_docker_network
+    ports:
+      - 8086:8086
 
   data_downloader:  
     build: ./data_downloader
